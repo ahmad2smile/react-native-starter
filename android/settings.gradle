@@ -1,0 +1,3 @@
+rootProject.name = 'scheduling'
+
+include ':app'
