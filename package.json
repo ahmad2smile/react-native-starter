@@ -1,15 +1,13 @@
 {
 	"name": "scheduling",
 	"version": "0.0.1",
-	"private": true,
 	"scripts": {
 		"start":
 			"concurrently 'npm run configure' 'npm run depRunner' 'npm run iosRunner'",
 		"configure": "node configure.js",
 		"depRunner": "node node_modules/react-native/local-cli/cli.js start",
 		"iosRunner": "react-native run-ios",
-		"clean":
-			"rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
+		"clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all",
 		"test": "jest"
 	},
 	"dependencies": {

@@ -1,4 +1,4 @@
-package com.scheduling;
+package com.unit23.scheduling;
 
 import android.app.Application;
 

@@ -1,4 +1,4 @@
-package com.scheduling;
+package com.unit23.scheduling;
 
 import com.facebook.react.ReactActivity;
 
