@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.unit23.scheduling"
+        applicationId "com.scheduling"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
