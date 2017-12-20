@@ -13,25 +13,25 @@ import styles from "./Styles/LoginComponentStyles"
 
 @connect(state => ({
 	clicker: state.clicker,
-	fbData : state.facebookexample.fbApiData
+	fbData: state.facebookexample.fbApiData
 }))
 class LoginComponent extends Component {
-	constructor (props) {
+	constructor(props) {
 		super(props)
 
 		this.btnPressHandler = this.btnPressHandler.bind(this)
 		this.callFbAPI = this.callFbAPI.bind(this)
 	}
 
-	btnPressHandler () {
+	btnPressHandler() {
 		this.props.dispatch(incrementClicker(1))
 	}
 
-	callFbAPI () {
+	callFbAPI() {
 		this.props.dispatch(facebookexampleRequest("notReqPayload"))
 	}
 
-	render () {
+	render() {
 		const { title, movies, description } = this.props.fbData
 		return (
 			<View style={styles.container}>

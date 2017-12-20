@@ -1,10 +1,9 @@
 {
-	"name": "scheduling",
+	"name": "Scheduling",
 	"version": "0.0.1",
 	"scripts": {
-		"start":
-			"concurrently 'npm run configure' 'npm run depRunner' 'npm run iosRunner'",
-		"configure": "node configure.js",
+		"start": "npm run ios",
+		"configure": "node __appconfig__/cli.js",
 		"depRunner": "node node_modules/react-native/local-cli/cli.js start",
 		"ios": "react-native run-ios",
 		"clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all",
@@ -27,7 +26,7 @@
 		"babel-plugin-transform-decorators-legacy": "^1.3.4",
 		"babel-plugin-transform-inline-environment-variables": "^0.2.0",
 		"babel-preset-react-native": "4.0.0",
-		"concurrently": "^3.5.1",
+		"chalk": "^2.3.0",
 		"eslint": "^4.13.0",
 		"eslint-config-standard": "^10.2.1",
 		"eslint-plugin-import": "^2.8.0",
@@ -36,7 +35,9 @@
 		"eslint-plugin-promise": "^3.6.0",
 		"eslint-plugin-react": "^7.5.1",
 		"eslint-plugin-standard": "^3.0.1",
+		"inquirer": "^4.0.1",
 		"jest": "21.2.1",
+		"preferences": "^1.0.2",
 		"prettier": "^1.9.2",
 		"react-native-rename": "^2.2.2",
 		"react-test-renderer": "16.0.0",
