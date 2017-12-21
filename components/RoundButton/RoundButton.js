@@ -16,7 +16,7 @@ const RoundButton = ({ innerContent, onPress, color = "#fff" }) => {
 }
 
 RoundButton.propTypes = {
-	innerContent: PropTypes.any.isRequired,
+	innerContent: PropTypes.node.isRequired,
 	onPress     : PropTypes.func.isRequired,
 	color       : PropTypes.string
 }
