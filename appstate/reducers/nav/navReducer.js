@@ -1,7 +1,9 @@
+import { NavigationActions } from "react-navigation"
 import { AppNavigator } from "../../../navigation/routes"
 
 const initialState = AppNavigator.router.getStateForAction(
-	AppNavigator.router.getActionForPathAndParams("Login")
+	NavigationActions.init()
+	// AppNavigator.router.getActionForPathAndParams("Login") // Not needed appearently
 )
 
 export default function navReducer (state = initialState, action) {
