@@ -3,13 +3,13 @@ import { Provider } from "react-redux"
 
 import store from "./appstate/store/"
 
-import LoginComponent from "./screens/Login/LoginComponent"
+import NavigationComponent from "./navigation/NavigationComponent"
 
 export default class App extends Component {
 	render () {
 		return (
 			<Provider store={store}>
-				<LoginComponent />
+				<NavigationComponent />
 			</Provider>
 		)
 	}
