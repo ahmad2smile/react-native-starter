@@ -1,21 +1,34 @@
-import { StackNavigator } from "react-navigation"
+import { StackNavigator, TabNavigator } from "react-navigation"
 
 import LoginComponent from "../screens/Login/LoginComponent"
 import ForgotPassComponent from "../screens/ForgotPass/ForgotPassComponent"
+import DashboardComponent from "../screens/Dashboard/DashboardComponent"
 
-export const AppNavigator = StackNavigator(
+export const DashboardNavigator = TabNavigator(
 	{
-		Login: {
-			screen           : LoginComponent,
-			navigationOptions: {
-				headerBackTitle: "Back"
-			}
-		},
-		ForgotPass: {
-			screen: ForgotPassComponent
+		Main: {
+			screen: DashboardComponent
 		}
 	},
 	{
-		initialRouteName: "Login"
+		animationEnabled: true,
+		tabBarOptions   : {
+			activeTintColor: "blue"
+		}
 	}
 )
+
+export const AppNavigator = StackNavigator({
+	Dashboard: {
+		screen: DashboardNavigator
+	},
+	Login: {
+		screen           : LoginComponent,
+		navigationOptions: {
+			headerBackTitle: "Back"
+		}
+	},
+	ForgotPass: {
+		screen: ForgotPassComponent
+	}
+})
