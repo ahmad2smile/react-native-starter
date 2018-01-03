@@ -1,18 +1,16 @@
 {
 	"root": true,
-	"extends": [
-		"standard"
-	],
+	"extends": ["standard"],
 	"env": {
 		"node": true,
 		"jest": true,
 		"browser": true
 	},
+	"globals": {
+		"__DEV__": true
+	},
 	"parser": "babel-eslint",
-	"plugins": [
-		"prettier",
-		"react"
-	],
+	"plugins": ["prettier", "react"],
 	"rules": {
 		"react/jsx-uses-react": "error",
 		"react/jsx-uses-vars": "error",
@@ -23,10 +21,7 @@
 				"avoidEscape": true
 			}
 		],
-		"indent": [
-			2,
-			"tab"
-		],
+		"indent": [2, "tab"],
 		"no-tabs": 0,
 		"arrow-parens": 0,
 		"no-var": 2,
@@ -46,17 +41,8 @@
 				"align": "colon"
 			}
 		],
-		"object-curly-spacing": [
-			"error",
-			"always"
-		],
-		"curly": [
-			"error",
-			"all"
-		],
-		"brace-style": [
-			"error",
-			"1tbs"
-		]
+		"object-curly-spacing": ["error", "always"],
+		"curly": ["error", "all"],
+		"brace-style": ["error", "1tbs"]
 	}
 }
