@@ -2,7 +2,8 @@ import configure from "../__appconfig__/"
 
 const colors = {
 	primary    : configure.colors.primary,
-	background : "#1F0808",
+	secondary  : configure.colors.secondary,
+	background : configure.colors.backgroundColor,
 	clear      : "rgba(0,0,0,0)",
 	facebook   : "#3b5998",
 	transparent: "rgba(0,0,0,0)",
@@ -10,7 +11,7 @@ const colors = {
 	steel      : "#CCCCCC",
 	error      : "rgba(200, 0, 0, 0.8)",
 	ricePaper  : "rgba(255,255,255, 0.75)",
-	frost      : "#D8D8D8",
+	frost      : configure.colors.frost,
 	cloud      : "rgba(200,200,200, 0.35)",
 	windowTint : "rgba(0, 0, 0, 0.4)",
 	panther    : "#161616",

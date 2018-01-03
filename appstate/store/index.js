@@ -1,27 +1,32 @@
 import { applyMiddleware, createStore, compose } from "redux"
-import { composeWithDevTools } from "remote-redux-devtools"
 import createSagaMiddleware from "redux-saga"
+import Reactotron from "reactotron-react-native"
+import { persistStore } from "redux-persist"
 
 import rootReducer from "../reducers/"
 import rootSaga from "../sagas/"
 
-const sagaMiddleware = createSagaMiddleware()
+let sagaMiddleware = createSagaMiddleware()
 
 function configureStore (initialState = {}) {
-	let composer = []
+	const middlewares = [sagaMiddleware] // To use Reactron created sagaMiddleware or just simple one
 
 	if (__DEV__) {
-		composer = composeWithDevTools(applyMiddleware(sagaMiddleware))
-	} else {
-		composer = compose(applyMiddleware(sagaMiddleware))
+		const sagaMonitor = Reactotron.createSagaMonitor()
+		sagaMiddleware = createSagaMiddleware({ sagaMonitor })
+
+		middlewares.push(sagaMiddleware)
+		middlewares.push(require("redux-immutable-state-invariant").default()) // Imported as on Docs
+
+		return Reactotron.createStore(rootReducer, compose(applyMiddleware(...middlewares)))
 	}
 
-	return createStore(rootReducer, initialState, composer)
+	return createStore(rootReducer, compose(applyMiddleware(...middlewares)))
 }
 
-const store = configureStore()
+export const store = configureStore()
 
-// initiate sagas
+// MUST initiate sagas after creating the store
 sagaMiddleware.run(rootSaga)
 
-export default store
+export const persistor = persistStore(store) // For redux persist PersistGate

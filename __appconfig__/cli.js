@@ -6,54 +6,68 @@ const chalk = require("chalk")
 const preferences = require("./appprefs.json")
 const log = console.log
 
-function askAppName(appname, availableApps, _inquirer) {
+function askAction () {
 	const questions = [
 		{
-			type: "list",
-			name: "selectedAppName",
+			type   : "list",
+			name   : "action",
+			message: "Select What to Change: ",
+			choices: ["Theme", "Application"],
+			default: "Theme"
+		}
+	]
+
+	return inquirer.prompt(questions)
+}
+
+function askAppName (appname, availableApps) {
+	const questions = [
+		{
+			type   : "list",
+			name   : "selectedAppName",
 			message: "Select App Name: ",
 			choices: availableApps,
 			default: appname
 		}
 	]
 
-	return _inquirer.prompt(questions)
+	return inquirer.prompt(questions)
 }
 
-function changeAppName(newAppName) {
-	const command = exec(`npm run rename ${newAppName}`)
+function changeAppName (newAppName) {
+	const command = exec(`yarn rename ${newAppName}`)
 	command.stdout.pipe(process.stdout)
 	command.stderr.pipe(process.stdout)
 }
 
-function updateAppPrefs() {
+function updateAppPrefs () {
 	fs.writeFileSync(
 		path.join(path.resolve(__dirname), "appprefs.json"),
 		JSON.stringify(preferences, null, "\t")
 	)
 }
 
-function cleanEnv() {
-	const command = exec("npm run clean")
+function cleanEnv () {
+	const command = exec("yarn clean")
 	command.stdout.pipe(process.stdout)
 	command.stderr.pipe(process.stdout)
 }
 
-function runDepRunner(envAPPNAME, resetCache = "") {
+function runDepRunner (envAPPNAME) {
 	const command = exec(
-		`APPNAME=${envAPPNAME} npm run depRunner ${resetCache}`
+		`APPNAME=${envAPPNAME} yarn depRunner -- --reset-cache`
 	)
 	command.stdout.pipe(process.stdout)
 	command.stderr.pipe(process.stdout)
 }
 
-function runDev() {
-	const command = exec(`npm run start`)
+function runDev () {
+	const command = exec("yarn start")
 	command.stdout.pipe(process.stdout)
 	command.stderr.pipe(process.stdout)
 }
 
-function logError(stderr) {
+function logError (stderr) {
 	if (stderr) {
 		log(chalk.gray.bgBlackBright("===================================="))
 		log(chalk.red(stderr))
@@ -61,46 +75,53 @@ function logError(stderr) {
 	}
 }
 
-function logSuccess(stdout) {
+function logSuccess (stdout) {
 	log(chalk.gray.bgBlackBright("===================================="))
 	log(chalk.green(stdout))
 	log(chalk.gray.bgBlackBright("===================================="))
 }
 
-async function runNewSetup() {
+async function runMainSetup () {
+	const { action } = await askAction()
+
 	const { selectedAppName } = await askAppName(
 		preferences.appname,
-		preferences.availableApps,
-		inquirer
+		preferences.availableApps
 	)
+
+	if (action === "Theme") {
+		runDepRunner(selectedAppName)
+
+		return
+	}
 
 	if (preferences.appname === selectedAppName) {
 		logError("App Name was not changed")
 		logSuccess("All Done! Running depRunner now!! ")
 
-		//run depRunner with new APPNAME env variable
+		// run depRunner with new APPNAME env variable
 		runDepRunner(selectedAppName.toLowerCase())
 
 		runDev()
 	} else {
-		//update config file
+		// update config file
 		preferences.appname = selectedAppName
 		updateAppPrefs()
 
-		//change app name with react-native-rename
+		// change app name with react-native-rename
 		changeAppName(selectedAppName)
 
-		//clean cache
+		// clean cache
 		cleanEnv()
 
 		logSuccess("All Done! Running depRunner now!! ")
 
-		//run depRunner with new APPNAME env variable
-		runDepRunner(selectedAppName.toLowerCase(), "-- --reset-cache")
+		// run depRunner with new APPNAME env variable
+		runDepRunner(selectedAppName.toLowerCase())
 
 		runDev()
 	}
 }
 
-//ONE FUNC TO RULE 'EM ALL
-runNewSetup()
+// ONE FUNC TO RULE 'EM ALL
+runMainSetup()

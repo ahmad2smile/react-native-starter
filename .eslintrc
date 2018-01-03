@@ -6,6 +6,10 @@
 		"jest": true,
 		"browser": true
 	},
+	"globals": {
+		"__DEV__": true
+	},
+	"parser": "babel-eslint",
 	"plugins": ["prettier", "react"],
 	"rules": {
 		"react/jsx-uses-react": "error",

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { View, Text, Image } from "react-native"
+import { NavigationActions } from "react-navigation"
 import { connect } from "react-redux"
 
 import RoundButton from "../../components/RoundButton/RoundButton"
@@ -13,25 +14,44 @@ import styles from "./Styles/LoginComponentStyles"
 
 @connect(state => ({
 	clicker: state.clicker,
-	fbData: state.facebookexample.fbApiData
+	nav    : state.nav,
+	fbData : state.facebookexample.fbApiData
 }))
 class LoginComponent extends Component {
-	constructor(props) {
+	constructor (props) {
 		super(props)
 
 		this.btnPressHandler = this.btnPressHandler.bind(this)
 		this.callFbAPI = this.callFbAPI.bind(this)
+		this.goToforgotPass = this.goToforgotPass.bind(this)
+		this.goToDashboard = this.goToDashboard.bind(this)
 	}
 
-	btnPressHandler() {
+	static navigationOptions = {
+		header: null
+	}
+
+	goToDashboard () {
+		const resetAction = NavigationActions.reset({
+			index  : 0,
+			actions: [NavigationActions.navigate({ routeName: "Dashboard" })]
+		})
+		this.props.navigation.dispatch(resetAction)
+	}
+
+	btnPressHandler () {
 		this.props.dispatch(incrementClicker(1))
 	}
 
-	callFbAPI() {
+	callFbAPI () {
 		this.props.dispatch(facebookexampleRequest("notReqPayload"))
 	}
 
-	render() {
+	goToforgotPass () {
+		this.props.navigation.navigate("ForgotPass")
+	}
+
+	render () {
 		const { title, movies, description } = this.props.fbData
 		return (
 			<View style={styles.container}>
@@ -45,11 +65,7 @@ class LoginComponent extends Component {
 				<Text>----------------------------------</Text>
 				<Text>----------------------------------</Text>
 				<Text>Call Example Facebook API</Text>
-				<RoundButton
-					color="#4267b2"
-					innerContent="Call Fb API"
-					onPress={this.callFbAPI}
-				/>
+				<RoundButton color="#4267b2" innerContent="Call Fb API" onPress={this.callFbAPI} />
 				<Text>Here is the of API data</Text>
 				{!!title && (
 					<View>
@@ -67,6 +83,9 @@ class LoginComponent extends Component {
 				<View>
 					<Text>{process.env.APPNAME}</Text>
 				</View>
+
+				<RoundButton color="red" innerContent="Forgot Page" onPress={this.goToforgotPass} />
+				<RoundButton color="green" innerContent="Login" onPress={this.goToDashboard} />
 			</View>
 		)
 	}
